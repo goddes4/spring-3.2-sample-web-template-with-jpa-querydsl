@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+  "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+		
+	<!-- 관리자웹 : 기본페이지  -->
+	<definition name="adminLayout" template="/WEB-INF/views/admin/layout.jsp">
+		<put-attribute name="title" value="애완견 돌보미" />
+		<put-attribute name="script" value="/WEB-INF/views/admin/script.jsp" />
+		<put-attribute name="top" value="/WEB-INF/views/admin/top.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/admin/menu.jsp" />
+	</definition>
+	
+	<!-- 사용자 관리 페이지 -->
+	<definition name="admin/**" extends="adminLayout">
+		<put-attribute name="content" value="/WEB-INF/views/admin/{1}.jsp" />
+		<put-attribute name="name" expression="${menu}" />
+	</definition>
+	
+</tiles-definitions>
