@@ -44,7 +44,7 @@
 		<!-- Java Network Framework -->
 		<jboss.netty.version>3.2.9.Final</jboss.netty.version>
 		
-		<lombok.version>0.11.8</lombok.version>
+		<lombok.version>1.12.4</lombok.version>
 		<poi.version>3.9</poi.version>
 		<javax.mail.version>1.4.7</javax.mail.version>
 	</properties>
