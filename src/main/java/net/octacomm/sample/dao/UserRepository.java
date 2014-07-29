@@ -4,6 +4,6 @@ import net.octacomm.sample.domain.User;
 
 public interface UserRepository extends DefaultRepository<User, String> {
 
-	User findByIdAndName(User user);
-
+	User findByIdAndPassword(String id, String password);
+	
 }

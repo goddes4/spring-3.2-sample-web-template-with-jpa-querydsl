@@ -1,5 +1,7 @@
 package net.octacomm.sample.config;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import net.octacomm.sample.dao.UserRepository;
@@ -10,23 +12,20 @@ import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
-import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@Profile("springDataJpa")
 @EnableTransactionManagement
+@PropertySource("classpath:bootstrap.properties")
 @EnableJpaRepositories(transactionManagerRef = "txManager", basePackageClasses = { UserRepository.class })
-@ImportResource("file:resources/hsqlJdbcScriptContext.xml")
 public class JpaConfig {
 
 	@Autowired
@@ -48,8 +47,8 @@ public class JpaConfig {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-		jpaVendorAdapter.setDatabase(Database.HSQL);
-		jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.HSQLDialect");
+		jpaVendorAdapter.setDatabase(Database.MYSQL);
+		jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		jpaVendorAdapter.setShowSql(true);
 		jpaVendorAdapter.setGenerateDdl(true);
 
@@ -60,8 +59,11 @@ public class JpaConfig {
 		factoryBean.setPackagesToScan(User.class.getPackage().toString().substring(8));
 //		factoryBean.setPersistenceXmlLocation("file:resources/META-INF/spring-persistence.xml"); // persistence.xml 을 등록하게 되면 setPackagesToScan 으로 설정한 값이 초기화 된다.  
 		factoryBean.setPersistenceProvider(new HibernatePersistence());
-		factoryBean.setJpaDialect(new HibernateJpaDialect());
 
+		Properties props = new Properties();
+		props.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+		factoryBean.setJpaProperties(props);
+		
 		return factoryBean;
 	}
 	

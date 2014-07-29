@@ -13,14 +13,14 @@ public class LoginServiceImpl implements LoginService{
 	
 	@Autowired
 	UserRepository userRepository;
-
+	
 	@Override
 	public boolean login(User user) throws NotFoundUserException, InvalidPasswordException {
 		if (userRepository.findOne(user.getId()) == null) {
 			throw new NotFoundUserException();
 		}
 		
-		if (userRepository.findByIdAndName(user) == null) {
+		if (userRepository.findByIdAndPassword(user.getId(), user.getPassword()) == null) {
 			throw new InvalidPasswordException();
 		}
 		return true;
