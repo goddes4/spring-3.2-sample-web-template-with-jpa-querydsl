@@ -7,8 +7,9 @@ public class PrintUtil {
 		StringBuilder str = new StringBuilder();
 
 		str.append(msg + " : ");
+		int startIndex = buffer.readerIndex();
 		for (int i = 0; i < buffer.readableBytes(); i++) {
-			str.append(String.format("%02X ", buffer.getUnsignedByte(i)));
+			str.append(String.format("%02X ", buffer.getUnsignedByte(startIndex + i)));
 		}
 		return str.toString();
 	}
