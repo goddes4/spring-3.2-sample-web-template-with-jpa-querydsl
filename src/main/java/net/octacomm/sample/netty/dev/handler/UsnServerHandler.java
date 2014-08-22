@@ -140,7 +140,6 @@ public class UsnServerHandler extends SimpleChannelHandler implements MessageSen
     }
 
 	private IncomingMessage send(OutgoingMessage packet) {
-		recvLock.clear();
 		channel.write(packet);
 
 		IncomingMessage recvMessage;
